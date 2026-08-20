@@ -10,33 +10,84 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ExitRouteImport } from './routes/exit'
+import { Route as ParkRouteImport } from './routes/park'
+import { Route as RevenueRouteImport } from './routes/revenue'
+import { Route as SlotsRouteImport } from './routes/slots'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExitRoute = ExitRouteImport.update({
+  id: '/exit',
+  path: '/exit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParkRoute = ParkRouteImport.update({
+  id: '/park',
+  path: '/park',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RevenueRoute = RevenueRouteImport.update({
+  id: '/revenue',
+  path: '/revenue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SlotsRoute = SlotsRouteImport.update({
+  id: '/slots',
+  path: '/slots',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/exit': typeof ExitRoute
+  '/park': typeof ParkRoute
+  '/revenue': typeof RevenueRoute
+  '/slots': typeof SlotsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/exit': typeof ExitRoute
+  '/park': typeof ParkRoute
+  '/revenue': typeof RevenueRoute
+  '/slots': typeof SlotsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/exit': typeof ExitRoute
+  '/park': typeof ParkRoute
+  '/revenue': typeof RevenueRoute
+  '/slots': typeof SlotsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/dashboard' | '/exit' | '/park' | '/revenue' | '/slots'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/dashboard' | '/exit' | '/park' | '/revenue' | '/slots'
+  id:
+    '__root__' | '/' | '/dashboard' | '/exit' | '/park' | '/revenue' | '/slots'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  ExitRoute: typeof ExitRoute
+  ParkRoute: typeof ParkRoute
+  RevenueRoute: typeof RevenueRoute
+  SlotsRoute: typeof SlotsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +99,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exit': {
+      id: '/exit'
+      path: '/exit'
+      fullPath: '/exit'
+      preLoaderRoute: typeof ExitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/park': {
+      id: '/park'
+      path: '/park'
+      fullPath: '/park'
+      preLoaderRoute: typeof ParkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/revenue': {
+      id: '/revenue'
+      path: '/revenue'
+      fullPath: '/revenue'
+      preLoaderRoute: typeof RevenueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/slots': {
+      id: '/slots'
+      path: '/slots'
+      fullPath: '/slots'
+      preLoaderRoute: typeof SlotsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  ExitRoute: ExitRoute,
+  ParkRoute: ParkRoute,
+  RevenueRoute: RevenueRoute,
+  SlotsRoute: SlotsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
