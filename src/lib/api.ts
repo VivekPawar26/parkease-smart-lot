@@ -32,6 +32,14 @@ export type Slot = {
 
 export type TypeStatus = { total: number; available: number; occupied: number };
 
+export type RawTypeStatus = { available: number; occupied: number };
+
+export type RawStatus = {
+  BIKE: RawTypeStatus;
+  CAR: RawTypeStatus;
+  BUS: RawTypeStatus;
+};
+
 export type Status = {
   totalSlots: number;
   availableSlots: number;
@@ -110,8 +118,24 @@ export function getSlots() {
   return request<Slot[]>("/slots");
 }
 
+function transformStatus(raw: RawStatus): Status {
+  const bike = { ...raw.BIKE, total: raw.BIKE.available + raw.BIKE.occupied };
+  const car = { ...raw.CAR, total: raw.CAR.available + raw.CAR.occupied };
+  const bus = { ...raw.BUS, total: raw.BUS.available + raw.BUS.occupied };
+
+  return {
+    totalSlots: bike.total + car.total + bus.total,
+    availableSlots: bike.available + car.available + bus.available,
+    occupiedSlots: bike.occupied + car.occupied + bus.occupied,
+    totalRevenue: 0,
+    bike,
+    car,
+    bus,
+  };
+}
+
 export function getStatus() {
-  return request<Status>("/status");
+  return request<RawStatus>("/status").then(transformStatus);
 }
 
 export function getRevenue() {
