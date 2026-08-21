@@ -14,7 +14,7 @@ import {
 import { AppLayout } from "@/components/AppLayout";
 import { LoadingState, ErrorState } from "@/components/ApiState";
 import { Button } from "@/components/ui/button";
-import { getStatus, formatINR, type TypeStatus } from "@/lib/api";
+import { getStatus, getRevenue, formatINR, type TypeStatus } from "@/lib/api";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -36,28 +36,52 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function DashboardPage() {
-  const query = useQuery({
+  const statusQuery = useQuery({
     queryKey: ["status"],
     queryFn: getStatus,
     retry: false,
     refetchInterval: 15000,
   });
+  const revenueQuery = useQuery({
+    queryKey: ["revenue"],
+    queryFn: getRevenue,
+    retry: false,
+    refetchInterval: 15000,
+  });
+
+  const isPending = statusQuery.isPending || revenueQuery.isPending;
+  const isError = statusQuery.isError || revenueQuery.isError;
+  const error = statusQuery.error ?? revenueQuery.error;
+  const isFetching = statusQuery.isFetching || revenueQuery.isFetching;
 
   return (
     <AppLayout title="Dashboard" subtitle="Live parking occupancy and revenue">
       <div className="mb-6 flex justify-end">
-        <Button variant="outline" size="sm" onClick={() => query.refetch()}>
-          <RefreshCw className={query.isFetching ? "size-4 animate-spin" : "size-4"} />
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            statusQuery.refetch();
+            revenueQuery.refetch();
+          }}
+        >
+          <RefreshCw className={isFetching ? "size-4 animate-spin" : "size-4"} />
           Refresh
         </Button>
       </div>
 
-      {query.isPending ? (
+      {isPending ? (
         <LoadingState label="Loading dashboard…" />
-      ) : query.isError ? (
-        <ErrorState error={query.error} onRetry={() => query.refetch()} />
+      ) : isError ? (
+        <ErrorState
+          error={error}
+          onRetry={() => {
+            statusQuery.refetch();
+            revenueQuery.refetch();
+          }}
+        />
       ) : (
-        <Dashboard data={query.data} />
+        <Dashboard data={statusQuery.data} revenue={revenueQuery.data?.totalRevenue ?? 0} />
       )}
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
@@ -69,7 +93,13 @@ function DashboardPage() {
   );
 }
 
-function Dashboard({ data }: { data: Awaited<ReturnType<typeof getStatus>> }) {
+function Dashboard({
+  data,
+  revenue,
+}: {
+  data: Awaited<ReturnType<typeof getStatus>>;
+  revenue: number;
+}) {
   const occupancy = data.totalSlots > 0 ? (data.occupiedSlots / data.totalSlots) * 100 : 0;
 
   return (
@@ -90,7 +120,7 @@ function Dashboard({ data }: { data: Awaited<ReturnType<typeof getStatus>> }) {
         />
         <StatCard
           label="Total Revenue"
-          value={formatINR(data.totalRevenue)}
+          value={formatINR(revenue)}
           icon={IndianRupee}
           tone="brand"
         />
