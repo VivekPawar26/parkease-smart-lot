@@ -1,3 +1,4 @@
+import logoAsset from "@/assets/parkease-logo.png.asset.json";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
