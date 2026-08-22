@@ -26,9 +26,11 @@ const NAV = [
 export function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <span className="flex items-center gap-2.5">
-      <span className="flex size-9 items-center justify-center rounded-lg bg-brand-gradient text-primary-foreground">
-        <CircleParking className="size-5" />
-      </span>
+      <img
+        src={logoAsset.url}
+        alt="ParkEase logo"
+        className="size-9 rounded-lg object-cover"
+      />
       <span className="leading-tight">
         <span className="block font-display text-lg font-bold">ParkEase</span>
         {!compact && (
