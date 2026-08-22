@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "ParkEase — Smart Parking Management System" },
       {
         name: "description",
-        content: "ParkEase — Where Smart Parking Begins Smart parking management console.",
+        content: "ParkEase — Where Smart Parking Begins. Smart parking management console.",
       },
       { property: "og:title", content: "ParkEase — Smart Parking Management System" },
       { property: "og:description", content: "Where Smart Parking Begins" },
