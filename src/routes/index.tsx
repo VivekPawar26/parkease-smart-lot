@@ -75,7 +75,7 @@ function LoginPage() {
         </span>
         <div className="max-w-md">
           <h1 className="text-4xl font-bold leading-tight">
-            Park Smarter. <span className="text-gradient-brand">Drive Better.</span>
+            Where <span className="text-gradient-brand">Smart Parking</span> Begins
           </h1>
           <p className="mt-4 text-muted-foreground">
             Real-time slot allocation, automated exit billing and revenue insight for your parking
