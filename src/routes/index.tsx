@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
         content:
           "Sign in to ParkEase, the smart parking management console for slot allocation, vehicle exit billing and revenue tracking.",
       },
-      { property: "og:title", content: "ParkEase — Park Smarter. Drive Better." },
+      { property: "og:title", content: "ParkEase — Where Smart Parking Begins" },
       {
         property: "og:description",
         content: "Admin login for the ParkEase smart parking management system.",
