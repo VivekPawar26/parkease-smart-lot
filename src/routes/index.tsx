@@ -1,3 +1,4 @@
+import logoAsset from "@/assets/parkease-logo.png.asset.json";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
@@ -68,9 +69,11 @@ function LoginPage() {
     <div className="flex min-h-screen bg-hero">
       <div className="hidden flex-1 flex-col justify-between p-12 lg:flex">
         <span className="flex items-center gap-3">
-          <span className="flex size-10 items-center justify-center rounded-xl bg-brand-gradient text-primary-foreground">
-            <CircleParking className="size-6" />
-          </span>
+          <img
+            src={logoAsset.url}
+            alt="ParkEase logo"
+            className="size-10 rounded-xl object-cover"
+          />
           <span className="font-display text-xl font-bold">ParkEase</span>
         </span>
         <div className="max-w-md">

@@ -1,3 +1,4 @@
+import logoAsset from "@/assets/parkease-logo.png.asset.json";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -141,9 +142,11 @@ function Receipt({ receipt }: { receipt: ExitResponse }) {
     <div className="panel print-area p-6">
       <div className="flex items-start justify-between border-b border-border pb-4">
         <div className="flex items-center gap-2.5">
-          <span className="flex size-9 items-center justify-center rounded-lg bg-brand-gradient text-primary-foreground">
-            <CircleParking className="size-5" />
-          </span>
+          <img
+            src={logoAsset.url}
+            alt="ParkEase logo"
+            className="size-9 rounded-lg object-cover"
+          />
           <div>
             <p className="font-display text-lg font-bold">ParkEase</p>
             <p className="text-xs text-muted-foreground">Where Smart Parking Begins</p>
