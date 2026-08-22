@@ -32,7 +32,7 @@ export function Brand({ compact = false }: { compact?: boolean }) {
       <span className="leading-tight">
         <span className="block font-display text-lg font-bold">ParkEase</span>
         {!compact && (
-          <span className="block text-xs text-muted-foreground">Park Smarter. Drive Better.</span>
+          <span className="block text-xs text-muted-foreground">Where Smart Parking Begins</span>
         )}
       </span>
     </span>

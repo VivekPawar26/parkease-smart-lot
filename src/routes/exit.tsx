@@ -146,7 +146,7 @@ function Receipt({ receipt }: { receipt: ExitResponse }) {
           </span>
           <div>
             <p className="font-display text-lg font-bold">ParkEase</p>
-            <p className="text-xs text-muted-foreground">Park Smarter. Drive Better.</p>
+            <p className="text-xs text-muted-foreground">Where Smart Parking Begins</p>
           </div>
         </div>
         <div className="text-right">
