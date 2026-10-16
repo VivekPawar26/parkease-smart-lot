@@ -32,9 +32,8 @@ export type Slot = {
 
 export type TypeStatus = { total: number; available: number; occupied: number };
 
-export type RawTypeStatus = { available: number; occupied: number };
 
-export type RawStatus = Partial<Record<VehicleType, Partial<RawTypeStatus>>>;
+
 
 export type Status = {
   totalSlots: number;
