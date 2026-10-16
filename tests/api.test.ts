@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "bun:test";
-import { getStatus } from "./api";
+import { getStatus } from "../src/lib/api";
 
 const originalFetch = globalThis.fetch;
 
