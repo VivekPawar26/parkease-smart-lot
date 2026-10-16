@@ -1,4 +1,4 @@
-import logo from "@/assets/parkease-logo.png";
+
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import {
@@ -28,7 +28,7 @@ export function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <span className="flex items-center gap-2.5">
       <img
-        src={logo}
+        src="/parkease-logo.png"
         alt="ParkEase logo"
         className="size-9 rounded-lg object-cover"
       />
