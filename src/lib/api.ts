@@ -34,11 +34,7 @@ export type TypeStatus = { total: number; available: number; occupied: number };
 
 export type RawTypeStatus = { available: number; occupied: number };
 
-export type RawStatus = {
-  BIKE: RawTypeStatus;
-  CAR: RawTypeStatus;
-  BUS: RawTypeStatus;
-};
+export type RawStatus = Partial<Record<VehicleType, Partial<RawTypeStatus>>>;
 
 export type Status = {
   totalSlots: number;
@@ -118,10 +114,27 @@ export function getSlots() {
   return request<Slot[]>("/slots");
 }
 
-function transformStatus(raw: RawStatus): Status {
-  const bike = { ...raw.BIKE, total: raw.BIKE.available + raw.BIKE.occupied };
-  const car = { ...raw.CAR, total: raw.CAR.available + raw.CAR.occupied };
-  const bus = { ...raw.BUS, total: raw.BUS.available + raw.BUS.occupied };
+function readCount(value: unknown): number {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : 0;
+}
+
+function readTypeStatus(value: unknown): TypeStatus {
+  const record = typeof value === "object" && value !== null
+    ? (value as Record<string, unknown>)
+    : {};
+  const available = readCount(record["available"]);
+  const occupied = readCount(record["occupied"]);
+
+  return { available, occupied, total: available + occupied };
+}
+
+function transformStatus(raw: unknown): Status {
+  const record = typeof raw === "object" && raw !== null
+    ? (raw as Record<string, unknown>)
+    : {};
+  const bike = readTypeStatus(record["BIKE"]);
+  const car = readTypeStatus(record["CAR"]);
+  const bus = readTypeStatus(record["BUS"]);
 
   return {
     totalSlots: bike.total + car.total + bus.total,
@@ -135,7 +148,7 @@ function transformStatus(raw: RawStatus): Status {
 }
 
 export function getStatus() {
-  return request<RawStatus>("/status").then(transformStatus);
+  return request<unknown>("/status").then(transformStatus);
 }
 
 export function getRevenue() {
