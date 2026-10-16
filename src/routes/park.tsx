@@ -58,6 +58,7 @@ function ParkPage() {
     onSuccess: (data) => {
       setResult(data);
       queryClient.invalidateQueries({ queryKey: ["status"] });
+      queryClient.invalidateQueries({ queryKey: ["revenue"] });
       queryClient.invalidateQueries({ queryKey: ["slots"] });
     },
   });

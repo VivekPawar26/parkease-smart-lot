@@ -131,21 +131,24 @@ function transformStatus(raw: unknown): Status {
   const record = typeof raw === "object" && raw !== null
     ? (raw as Record<string, unknown>)
     : {};
-  const bike = readTypeStatus(record["BIKE"]);
-  const car = readTypeStatus(record["CAR"]);
-  const bus = readTypeStatus(record["BUS"]);
+
+  // Java backend sends lowercase keys: "bike", "car", "bus"
+  const bike = readTypeStatus(record["bike"] ?? record["BIKE"]);
+  const car = readTypeStatus(record["car"] ?? record["CAR"]);
+  const bus = readTypeStatus(record["bus"] ?? record["BUS"]);
+
+  const totalRevenue = readCount(record["totalRevenue"]);
 
   return {
-    totalSlots: bike.total + car.total + bus.total,
-    availableSlots: bike.available + car.available + bus.available,
-    occupiedSlots: bike.occupied + car.occupied + bus.occupied,
-    totalRevenue: 0,
+    totalSlots: readCount(record["totalSlots"]) || (bike.total + car.total + bus.total),
+    availableSlots: readCount(record["availableSlots"]) || (bike.available + car.available + bus.available),
+    occupiedSlots: readCount(record["occupiedSlots"]) || (bike.occupied + car.occupied + bus.occupied),
+    totalRevenue,
     bike,
     car,
     bus,
   };
 }
-
 export function getStatus() {
   return request<unknown>("/status").then(transformStatus);
 }
