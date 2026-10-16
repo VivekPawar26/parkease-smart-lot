@@ -1,6 +1,6 @@
 export const API_BASE_URL =
   (import.meta.env["VITE_API_BASE_URL"] as string | undefined) ??
-  "http://localhost:8081/api/parking";
+  "https://parkease-smart-parking-management.onrender.com/api/parking";
 
 export type VehicleType = "BIKE" | "CAR" | "BUS";
 
