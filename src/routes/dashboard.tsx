@@ -97,24 +97,31 @@ function Dashboard({
   data,
   revenue,
 }: {
-  data: Awaited<ReturnType<typeof getStatus>>;
+  data: Awaited<ReturnType<typeof getStatus>> | undefined;
   revenue: number;
 }) {
-  const occupancy = data.totalSlots > 0 ? (data.occupiedSlots / data.totalSlots) * 100 : 0;
+  const emptyStats: TypeStatus = { total: 0, available: 0, occupied: 0 };
+  const bikeStats = data?.bike ?? emptyStats;
+  const carStats = data?.car ?? emptyStats;
+  const busStats = data?.bus ?? emptyStats;
+  const totalSlots = data?.totalSlots ?? bikeStats.total + carStats.total + busStats.total;
+  const availableSlots = data?.availableSlots ?? bikeStats.available + carStats.available + busStats.available;
+  const occupiedSlots = data?.occupiedSlots ?? bikeStats.occupied + carStats.occupied + busStats.occupied;
+  const occupancy = totalSlots > 0 ? (occupiedSlots / totalSlots) * 100 : 0;
 
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Total Slots" value={String(data.totalSlots)} icon={Grid3X3} tone="info" />
+        <StatCard label="Total Slots" value={String(totalSlots)} icon={Grid3X3} tone="info" />
         <StatCard
           label="Available Slots"
-          value={String(data.availableSlots)}
+          value={String(availableSlots)}
           icon={CircleCheck}
           tone="success"
         />
         <StatCard
           label="Occupied Slots"
-          value={String(data.occupiedSlots)}
+          value={String(occupiedSlots)}
           icon={CircleSlash}
           tone="danger"
         />
@@ -138,14 +145,14 @@ function Dashboard({
           />
         </div>
         <p className="mt-2 text-xs text-muted-foreground">
-          {data.occupiedSlots} of {data.totalSlots} slots in use
+          {occupiedSlots} of {totalSlots} slots in use
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <TypeCard title="Bikes" icon={Bike} stats={data.bike} />
-        <TypeCard title="Cars" icon={CarFront} stats={data.car} />
-        <TypeCard title="Buses" icon={Bus} stats={data.bus} />
+        <TypeCard title="Bikes" icon={Bike} stats={bikeStats} />
+        <TypeCard title="Cars" icon={CarFront} stats={carStats} />
+        <TypeCard title="Buses" icon={Bus} stats={busStats} />
       </div>
     </div>
   );
